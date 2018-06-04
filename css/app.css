@@ -157,6 +157,9 @@ background: #ff5555;
   cursor: pointer;
 }
 
+.minutesLabel{
+  padding-left: 1rem;
+}
 
 /*
 * Styles for the Modal Panel

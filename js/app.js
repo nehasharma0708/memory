@@ -10,6 +10,10 @@
   let moveCount = document.querySelector('.moves');
   let score = document.getElementById('stars');
   let modal = document.getElementById("modal");
+  let minutesLabel = document.getElementById("minutesLabel");
+  let secondsLabel = document.getElementById("secondsLabel");
+  let totalSeconds = 0;
+  let timer = "";
 
   startGame ();
 
@@ -23,7 +27,26 @@
     event.target.classList.add("show");
   }
 
+  function setTime() {
+    totalSeconds++;
+    secondsLabel.textContent = pad(totalSeconds % 60);
+    minutesLabel.textContent = pad(parseInt(totalSeconds / 60));
+  }
+
+  function pad(val) {
+    let valString = val + "";
+    if (valString.length < 2) {
+      return "0" + valString;
+    } else {
+      return valString;
+    }
+  }
+
   mainDeck.addEventListener('click', function(event) {
+    if (totalSeconds == 0) {
+      // Starts the timer
+      timer = setInterval(setTime, 1000);
+    }
     if (event.target.className === "card open show") {
       return;
     }
@@ -66,19 +89,38 @@
   });
 
   function matchedCards () {
+    // Displays the winning score
     if (matched_cards.length == cardList.length / 2) {
+      let winningScore = document.getElementById("winningScore");
+      let time = "";
+      if (Number(minutesLabel.innerText) > 0 ) {
+        time = minutesLabel.innerText + " minutes " + secondsLabel.innerText + " seconds.";
+      } else {
+        time = secondsLabel.innerText + " seconds.";
+      }
+      winningScore.textContent = "With " + moveCounter + " Moves and " + totalStars + " Star in " + time;
       modal.classList.add("show-modal");
     }
   }
 
 function resetGame () {
+  // Restarts the game
   moveCounter = 0;
+  matched_cards = [];
+  stopTimer();
   displayMoves(moveCounter);
   resetScore();
   shuffle(cardList);
   createDeck();
 }
 
+function stopTimer () {
+  // Stops the timer
+  totalSeconds = 0;
+  clearInterval(timer);
+  minutesLabel.textContent = "00";
+  secondsLabel.textContent = "00";
+}
 function playAgain () {
   modal.classList.remove("show-modal");
   resetGame();
@@ -105,8 +147,8 @@ function playAgain () {
 
 function resetScore () {
   score.childNodes[1].lastChild.classList.remove("fa-star-o");
-    score.childNodes[3].lastChild.classList.remove("fa-star-o");
-      score.childNodes[5].lastChild.classList.remove("fa-star-o");
+  score.childNodes[3].lastChild.classList.remove("fa-star-o");
+  score.childNodes[5].lastChild.classList.remove("fa-star-o");
 }
   /*
   * Display the cards on the page

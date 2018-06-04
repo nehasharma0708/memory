@@ -20,8 +20,11 @@
         <li><i class="fa fa-star"></i></li>
       </ul>
       <span class="moves">0</span> Moves
-      <div class="restart" onclick="resetGame()">
-        <i class="fa fa-repeat"></i>
+      <div class="restart">
+        <i class="fa fa-repeat" onclick="resetGame()"></i>
+        <span id="minutesLabel" class="minutesLabel">00</span>
+        <span> : </span>
+        <span id="secondsLabel">00</span>
       </div>
     </section>
     <ul class="deck" id="mainDeck">
@@ -78,7 +81,7 @@
   <div class="modal" id="modal">
     <div class="modal-content">
       <h1 class="message">Congratulations! You Won!</h1>
-      <article class="winningScore">With 17 Moves and 1 Star.</article>
+      <article id="winningScore" class="winningScore">With 17 Moves and 1 Star.</article>
       <button class="playAgainBtn" id="playAgainBtn" onclick="playAgain()">Play Again!</button>
     </div>
   </div>
